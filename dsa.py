@@ -53,3 +53,32 @@ class Solution:
                     squares[(r//3,c//3)].add(board[r][c])
 
         return True
+
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        spiral_matrix = []
+
+        top = left = 0
+        bottom = len(matrix) - 1
+        right = len(matrix[0]) - 1
+
+        while top <= bottom and left <= right:
+
+            for i in range(left, right+1):
+                spiral_matrix += [matrix[top][i]]
+            top += 1
+
+            for j in range(top, bottom + 1):
+                spiral_matrix += [matrix[j][right]]
+            right -= 1
+
+            if top <= bottom:
+                for k in range(right,left-1,-1):
+                    spiral_matrix += [matrix[bottom][k]]
+                bottom -= 1
+            if left <= right:
+                for m in range(bottom,top-1,-1):
+                    spiral_matrix += [matrix[m][left]]
+                left += 1
+
+        return spiral_matrix
