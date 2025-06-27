@@ -82,3 +82,34 @@ class Solution:
                 left += 1
 
         return spiral_matrix
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def constructFromPrePost(self, preorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        pre_idx = 0
+        post_hmap = {val: i for i, val in enumerate(postorder)}
+
+        def helper(left , right):
+            if left > right:
+                return None
+            nonlocal pre_idx
+            root_val = preorder[pre_idx]
+            root = TreeNode(root_val)
+            pre_idx += 1
+
+            if left == right:
+                return root 
+
+            left_child_val = preorder[pre_idx]
+            idx_in_post = post_hmap[left_child_val]
+
+            root.left = helper(left, idx_in_post)
+            root.right = helper(idx_in_post +1, right-1)
+            return root
+
+        return helper(0, len(postorder)-1)
