@@ -1,5 +1,5 @@
 # Definition for singly-linked list.
-from typing import Optional
+from typing import Optional, List
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -29,7 +29,6 @@ class Solution:
         return dummy.next
 
 from collections import defaultdict
-class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         
         rows = defaultdict(set)
@@ -54,7 +53,6 @@ class Solution:
 
         return True
 
-class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         spiral_matrix = []
 
@@ -83,13 +81,12 @@ class Solution:
 
         return spiral_matrix
 
-Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
-class Solution:
+
     def constructFromPrePost(self, preorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
         pre_idx = 0
         post_hmap = {val: i for i, val in enumerate(postorder)}
@@ -114,7 +111,6 @@ class Solution:
 
         return helper(0, len(postorder)-1)
 
-class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         if not p and not q:
             return True
@@ -125,7 +121,7 @@ class Solution:
 
         return self.isSameTree(p.left,q.left) and self.isSameTree(p.right,q.right)
 
-class Solution:
+
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         
         def isSameTree(p, q):
@@ -146,7 +142,7 @@ class Solution:
             return dfs(root.left,subRoot) or dfs(root.right, subRoot)
 
         return dfs(root, subRoot)
-class Solution:
+    
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         if p.val > q.val:
             p, q = q, p
@@ -164,7 +160,6 @@ class Solution:
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution:
     def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
         
         if not root:
@@ -188,3 +183,31 @@ def find_min(node):
     while node.left:
         node = node.left
     return node
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+
+        queue = deque([root])
+
+        res = []
+
+        while queue:
+            lev = len(queue)
+            for i in range(lev):
+                node = queue.popleft()
+                if i == lev -1:
+                    res.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        return res
