@@ -238,3 +238,33 @@ class Solution:
                 heapq.heappush(maxHeap, -(first-second))
         
         return -maxHeap[0] if maxHeap else 0
+
+import heapq
+from collections import defaultdict
+class Solution:
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        
+        hmap = defaultdict(list)
+        heap = []
+        res = []
+
+        for point in points:
+            d = point[0]**2 + point[1]**2
+            hmap[d].append(point)
+            heap.append(d)
+        
+        heapq.heapify(heap)
+        visited = set()
+
+        while k > 0:
+            dist = heapq.heappop(heap)
+            if dist in visited:
+                continue
+            visited.add(dist)
+            for point in hmap[dist]:
+                if k == 0:
+                    break
+                res.append(point)
+                k -= 1
+        
+        return res
