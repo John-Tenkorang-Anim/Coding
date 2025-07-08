@@ -268,3 +268,18 @@ class Solution:
                 k -= 1
         
         return res
+    def goodNodes(self, root: TreeNode) -> int:
+
+        def good_count(root, max_val):
+            if not root:
+                return 0
+
+            good = 1 if max_val <= root.val else 0
+
+            new_max = max(max_val,root.val)
+            left = good_count(root.left,new_max)
+            right = good_count(root.right,new_max)
+            return good + left + right
+            
+        return good_count(root, float('-inf'))  
+            
