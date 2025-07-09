@@ -294,3 +294,16 @@ def isValidBST(self, root: Optional[TreeNode]) -> bool:
         return valid(node.left,min_val,node.val) and valid(node.right,node.val,max_val)
 
     return valid(root,float('-inf'),float('inf'))
+
+def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+    res = []
+    def inorder(node):
+        if not node:
+            return
+            
+        inorder(node.left)
+        res.append(node.val)
+        inorder(node.right)
+        
+    inorder(root)
+    return res[k-1]
