@@ -241,45 +241,56 @@ class Solution:
 
 import heapq
 from collections import defaultdict
-class Solution:
-    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+from typing import List, Optional
+def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         
-        hmap = defaultdict(list)
-        heap = []
-        res = []
+    hmap = defaultdict(list)
+    heap = []
+    res = []
 
-        for point in points:
-            d = point[0]**2 + point[1]**2
-            hmap[d].append(point)
-            heap.append(d)
+    for point in points:
+        d = point[0]**2 + point[1]**2
+        hmap[d].append(point)
+        heap.append(d)
         
-        heapq.heapify(heap)
-        visited = set()
+    heapq.heapify(heap)
+    visited = set()
 
-        while k > 0:
-            dist = heapq.heappop(heap)
-            if dist in visited:
-                continue
-            visited.add(dist)
-            for point in hmap[dist]:
-                if k == 0:
-                    break
-                res.append(point)
-                k -= 1
+    while k > 0:
+        dist = heapq.heappop(heap)
+        if dist in visited:
+            continue
+        visited.add(dist)
+        for point in hmap[dist]:
+            if k == 0:
+                break
+            res.append(point)
+            k -= 1
         
-        return res
-    def goodNodes(self, root: TreeNode) -> int:
+    return res
+def goodNodes(self, root: TreeNode) -> int:
 
-        def good_count(root, max_val):
-            if not root:
-                return 0
+    def good_count(root, max_val):
+        if not root:
+            return 0
 
-            good = 1 if max_val <= root.val else 0
+        good = 1 if max_val <= root.val else 0
 
-            new_max = max(max_val,root.val)
-            left = good_count(root.left,new_max)
-            right = good_count(root.right,new_max)
-            return good + left + right
+        new_max = max(max_val,root.val)
+        left = good_count(root.left,new_max)
+        right = good_count(root.right,new_max)
+        return good + left + right
             
-        return good_count(root, float('-inf'))  
-            
+    return good_count(root, float('-inf'))  
+def isValidBST(self, root: Optional[TreeNode]) -> bool:
+
+    def valid(node,min_val,max_val):
+        if not node:
+            return True
+
+        if not (min_val < node.val < max_val):
+            return False
+
+        return valid(node.left,min_val,node.val) and valid(node.right,node.val,max_val)
+
+    return valid(root,float('-inf'),float('inf'))
