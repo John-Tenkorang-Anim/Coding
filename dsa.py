@@ -361,3 +361,38 @@ def deserialize(self, data):
 
     vals = iter(data.split())
     return dfs()
+
+
+from collections import Counter
+import heapq as hq
+def leastInterval(self, tasks: List[str], n: int) -> int:
+        
+    if n == 0:
+        return len(tasks)
+
+    count = Counter(tasks)
+    maxHeap = [-cnt for cnt in count.values()]
+    hq.heapify(maxHeap)
+    time = 0
+
+    while maxHeap:
+        temp = []
+        cycle = 0
+
+        for _ in range(n +1):
+            if maxHeap:
+                freq = hq.heappop(maxHeap)
+
+                if (freq + 1) != 0:
+                    temp.append(freq+ 1)
+                cycle += 1
+            elif temp:
+                cycle += 1
+        for tmp in temp:
+            hq.heappush(maxHeap, tmp)
+            
+        time += cycle if not maxHeap else n + 1
+
+        return time
+
+       
