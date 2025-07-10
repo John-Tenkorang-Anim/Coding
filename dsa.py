@@ -307,3 +307,19 @@ def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         
     inorder(root)
     return res[k-1]
+def maxPathSum(self, root: Optional[TreeNode]) -> int:
+    path_sum = root.val
+
+    def dfs(node):
+        nonlocal path_sum
+        if not node:
+            return 0
+            
+        left_sum = max(0, dfs(node.left))
+        right_sum = max(0, dfs(node.right))
+
+        path_sum = max(path_sum, left_sum + right_sum + node.val)
+
+        return max(left_sum, right_sum) + node.val
+    dfs(root)
+    return path_sum
