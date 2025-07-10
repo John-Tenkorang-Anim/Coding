@@ -323,3 +323,41 @@ def maxPathSum(self, root: Optional[TreeNode]) -> int:
         return max(left_sum, right_sum) + node.val
     dfs(root)
     return path_sum
+class Codec:
+    def __init__(self):
+        self.vals = []
+def serialize(root):
+    """Encodes a tree to a single string.
+        
+    :type root: TreeNode
+    :rtype: str
+    """
+    def dfs(node):
+        if node:
+            vals.append(str(node.val))
+            dfs(node.left)
+            dfs(node.right)
+        else:
+            vals.append("#")
+    vals = []
+    dfs(root)  
+    return " ".join(vals)
+        
+
+def deserialize(self, data):
+    """Decodes your encoded data to tree.
+        
+    :type data: str
+    :rtype: TreeNode
+    """
+    def dfs():
+        val = next(vals)
+        if val == "#":
+            return None
+        node = TreeNode(int(val))
+        node.left = dfs()
+        node.right = dfs()
+        return node
+
+    vals = iter(data.split())
+    return dfs()
