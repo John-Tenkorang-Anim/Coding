@@ -453,3 +453,24 @@ class Solution:
                 time = itasks[i][0] # next enqueued time
 
         return res
+    def reorganizeString(self, s: str) -> str:
+        
+        freq = Counter(s)
+        max_allowed = (len(s) + 1)//2
+        if any( val > max_allowed for val in freq.values()):
+            return ""
+
+        heap = [(-cnt, char) for char, cnt in freq.items()]
+        hq.heapify(heap)
+        
+        ans = []
+        prev_count , prev_char = 0, ""
+        while heap:
+            cnt , char = hq.heappop(heap)
+            ans.append(char)
+            if prev_count < 0:
+                hq.heappush(heap, (prev_count, prev_char))
+            
+            prev_count , prev_char = cnt + 1, char
+            
+        return "".join(ans)
