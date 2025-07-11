@@ -425,4 +425,31 @@ class Twitter:
     def unfollow(self, followerId: int, followeeId: int) -> None:
         if followeeId in self.following[followerId]:
             self.following[followerId].remove(followeeId)
-      
+
+import heapq as hq
+class Solution:
+    def getOrder(self, tasks: List[List[int]]) -> List[int]:
+        itasks = [(et,pt,i) for i , (et, pt) in enumerate(tasks)]
+        itasks.sort()
+
+        res = []
+        heap = []
+        time = 0
+        i = 0
+        n = len(tasks)
+
+        while i < n or heap:
+
+            while i < n and itasks[i][0] <= time: # processing tasks
+                enqueue_time, proc_time, index = itasks[i]
+                hq.heappush(heap,(proc_time,index))
+                i += 1
+
+            if heap:
+                proc_time, index = hq.heappop(heap)
+                time += proc_time
+                res.append(index)
+            else:
+                time = itasks[i][0] # next enqueued time
+
+        return res
