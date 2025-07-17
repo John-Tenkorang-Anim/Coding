@@ -474,3 +474,31 @@ class Solution:
             prev_count , prev_char = cnt + 1, char
             
         return "".join(ans)
+    def longestDiverseString(self, a: int, b: int, c: int) -> str:
+        heap = []
+        if a > 0:
+            hq.heappush(heap, (-a,'a'))
+        if b > 0:
+            hq.heappush(heap, (-b,'b'))
+        if c > 0:
+            hq.heappush(heap, (-c,'c'))
+        
+        res = []
+        while heap:
+            cnt1, char1 = hq.heappop(heap)
+
+            if len(res)>= 2 and res[-1] == res[-2] == char1:
+                if not heap:
+                    break
+                cnt2, char2 = hq.heappop(heap)
+                res.append(char2)
+                cnt2 += 1
+                if cnt2 != 0:
+                    hq.heappush(heap, (cnt2,char2))
+                hq.heappush(heap, (cnt1,char1))
+            else:
+                res.append(char1)
+                cnt1 += 1
+                if cnt1 != 0:
+                    hq.heappush(heap, (cnt1, char1))
+        return "".join(res)
