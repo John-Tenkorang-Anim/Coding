@@ -537,3 +537,36 @@ class Solution:
             if dfs(i):
                 return False
         return True
+
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        visited = set()
+        rec_stack = set()
+        stack = []
+
+        graph = defaultdict(list)
+        for course, prereq in prerequisites:
+            graph[course].append(prereq)
+        
+        def dfs(course):
+            if course in rec_stack:
+                return False
+            if course in visited:
+                return True
+            
+            rec_stack.add(course)
+            for prereq in graph[course]:
+                if prereq not in visited:
+                    if not dfs(prereq):
+                        return False
+
+            visited.add(course)
+            stack.append(course)
+            rec_stack.remove(course)
+            return True
+            
+        for i in range(numCourses):
+            if i not in visited:
+                if not dfs(i):
+                    return []
+
+        return stack
