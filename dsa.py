@@ -510,3 +510,30 @@ class Solution:
             if not res or not dir.startswith(res[-1]+ '/'):
                 res.append(dir)
         return res
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        visited = set()
+        rec_stack = set()
+
+        graph  = defaultdict(list)
+        for course , prereq in prerequisites:
+            graph[course].append(prereq)
+
+        def dfs(course):
+            if course in rec_stack:
+                return True
+            if course in visited:
+                return False
+
+            visited.add(course)
+            rec_stack.add(course)
+
+            for prereq in graph[course]:
+                if dfs(prereq):
+                    return True
+            rec_stack.remove(course)
+            return False
+
+        for i in range(numCourses):
+            if dfs(i):
+                return False
+        return True
