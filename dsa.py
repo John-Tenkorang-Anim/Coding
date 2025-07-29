@@ -365,7 +365,7 @@ def deserialize(self, data):
 
 from collections import Counter
 import heapq as hq
-def leastInterval(self, tasks: List[str], n: int) -> int:
+def leastInterval(self, tasks: List[str], n: int):
         
     if n == 0:
         return len(tasks)
@@ -570,3 +570,55 @@ class Solution:
                     return []
 
         return stack
+    
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        
+        graph = {}
+
+        for i in range(len(equations)):
+            node1, node2 = equations[i][0], equations[i][1]
+            weight = values[i]
+
+            if node1 not in graph:
+                graph[node1] = []
+            if node2 not in graph:
+                graph[node2] = []
+
+            graph[node1].append((node2, weight))
+            graph[node2].append((node1, 1 / weight))
+
+        def bfs(graph, start_node, end_node):
+            if start_node not in graph or end_node not in graph:
+                return -1.0
+            if start_node == end_node:
+                return 1.0
+
+            queue = deque([(start_node, 1.0)])
+            visited = {start_node} 
+
+            while queue:
+                node, product_so_far = queue.popleft()
+
+                if node == end_node:
+                    return product_so_far
+
+                if node in graph: 
+                    for neighbor, weight in graph[node]:
+                        if neighbor not in visited:
+                            visited.add(neighbor)
+                            queue.append((neighbor, product_so_far * weight))
+
+            return -1.0
+
+        res = []
+        for query in queries:
+            start_node, end_node = query[0], query[1]
+            
+            if start_node not in graph or end_node not in graph:
+                res.append(-1.0)
+            elif start_node == end_node:
+                res.append(1.0)
+            else:
+                res.append(bfs(graph, start_node, end_node))
+
+        return res
