@@ -622,3 +622,44 @@ class Solution:
                 res.append(bfs(graph, start_node, end_node))
 
         return res
+
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        
+        rows = len(heights)
+        cols = len(heights[0])
+
+        pset = set()
+        aset = set()
+
+        def dfs(r,c, visited, prev_height):
+
+            #Base case
+            if not (0<= r<rows and 0 <= c < cols) or not heights[r][c] >= prev_height or (r,c) in visited:
+                return 
+            
+            visited.add((r,c))
+    
+            dfs(r -1, c, visited, heights[r][c])
+            dfs(r +1, c, visited, heights[r][c])
+            dfs(r, c -1, visited,  heights[r][c])
+            dfs(r, c +1, visited, heights[r][c])
+        
+        # starting dfs on pacific borders
+        for r in range(rows):
+            dfs(r,0,pset, heights[r][0])
+        for c in range(cols):
+            dfs(0,c,pset, heights[0][c])
+
+        #starting dfs on atlantic borders
+        for r in range(rows):
+            dfs(r,cols-1,aset, heights[r][cols-1])
+        for c in range(cols):
+            dfs(rows-1,c,aset, heights[rows-1][c])
+
+        
+        res = []
+        for r in range(rows):
+            for c in range(cols):
+                if (r,c) in aset and (r, c) in pset:
+                    res.append([r,c])
+        return res
