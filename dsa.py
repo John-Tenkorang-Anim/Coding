@@ -735,3 +735,35 @@ class Solution:
                     return []
 
         return stack   
+    
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+
+        graph = defaultdict(list)
+
+        for u , v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        visited = set()
+
+        if len(edges) != n -1:
+            return False
+
+        def cycle(node, parent):
+
+            visited.add(node)
+
+            for child in graph[node]:
+                if child not in visited:
+                    if cycle(child, node):
+                        return True
+                elif child != parent:
+                    return True
+
+            return False
+        
+        has_cycle = cycle(0,-1)
+
+        is_connected = len(visited) == n
+
+        return not has_cycle and is_connected
