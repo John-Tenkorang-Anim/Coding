@@ -767,3 +767,28 @@ class Solution:
         is_connected = len(visited) == n
 
         return not has_cycle and is_connected
+    
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        
+        graph = defaultdict(list)
+
+        for u,v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        visited = set()
+
+        def dfs(node):
+
+            visited.add(node)
+
+            for nbr in graph[node]:
+                if nbr not in visited:
+                    dfs(nbr)
+
+        count  = 0
+        for i in range(n):
+            if i not in visited:
+                count += 1
+                dfs(i)
+        return count
