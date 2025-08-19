@@ -792,3 +792,19 @@ class Solution:
                 count += 1
                 dfs(i)
         return count
+    
+    def findRepeatedDnaSequences(self, s: str) -> List[str]:
+        
+        substring_count = defaultdict(int)
+
+        for i in range(len(s)-9):
+
+            substring = s[i:i+10]
+
+            substring_count[substring] += 1
+
+        result = []
+        for substring, count in substring_count.items():
+            if count > 1:
+                result.append(substring)
+        return result
